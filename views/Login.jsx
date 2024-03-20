@@ -50,15 +50,15 @@ export default function Login() {
     //   console.log("Encoded JWT ID token: " + response.credential);
     // }
     // window.onload = function () {};
-    google.accounts.id.initialize({
-      client_id:
-        '1044060974853-lb9uqphq6g3esqsuf2u0lv2063dgnonh.apps.googleusercontent.com',
-      callback: handleCredentialResponse,
-    });
-    google.accounts.id.renderButton(
-      document.getElementById('buttonDiv'),
-      { theme: 'outline', size: 'large' } // customization attributes
-    );
+    // google.accounts.id.initialize({
+    //   client_id:
+    //     '1044060974853-lb9uqphq6g3esqsuf2u0lv2063dgnonh.apps.googleusercontent.com',
+    //   callback: handleCredentialResponse,
+    // });
+    // google.accounts.id.renderButton(
+    //   document.getElementById('buttonDiv'),
+    //   { theme: 'outline', size: 'large' } // customization attributes
+    // );
     // google.accounts.id.prompt(); // also display the One Tap dialog
   }, []);
   return (
@@ -124,7 +124,7 @@ export default function Login() {
               Buat Akun.
             </Link>
           </p>
-          <div className='text-center mt-4 text-gray-500'>- OR -</div>
+          {/* <div className='text-center mt-4 text-gray-500'>- OR -</div> */}
           <div
             id='buttonDiv'
             className='mt-4 flex justify-center'
