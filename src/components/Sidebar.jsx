@@ -25,9 +25,9 @@ export default function Sidebar() {
   };
 
   return (
-    <div className='w-1/4 bg-white border-r border-gray-300'>
+    <div className='w-1/4 bg-gray-900 text-white border-r border-gray-800'>
       {/* Sidebar Header */}
-      <header className='p-4 border-b border-gray-300 flex justify-between items-center bg-indigo-600 text-white'>
+      <header className='p-4 border-b border-gray-800 flex justify-between items-center'>
         <h1 className='text-2xl font-semibold'>Profiles</h1>
         <div className='relative'>
           <button
@@ -72,20 +72,20 @@ export default function Sidebar() {
         </div>
       </header>
       {/* Search Bar */}
-      <div className='p-4'>
-        <div className='flex items-center bg-white rounded-full shadow-md hover:shadow-xl transition-shadow duration-300'>
+      <div className='p-4 bg-white-800'>
+        <div className='flex items-center rounded-full shadow-md hover:shadow-xl transition-shadow duration-300'>
           <input
-            className='rounded-l-full w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none'
+            className='rounded-l-full w-full py-2 px-6 text-gray-900 leading-tight focus:outline-none bg-gray-700'
             id='search'
             type='text'
-            placeholder='Search'
+            placeholder='Search..'
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
       </div>
       {/* Contact List */}
-      <div className='overflow-y-auto max-h-[80vh] h-screen p-3 mb-9 pb-20'>
+      <div className='overflow-y-auto max-h-[80vh] h-screen p-3 mb-9 pb-20 bg-gray-800'>
         {profile
           ? profile.map((el, index) => {
               return (

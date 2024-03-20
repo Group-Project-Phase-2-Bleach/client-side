@@ -90,18 +90,18 @@ export default function Home() {
 
   return (
     <>
-      <div className='flex h-screen overflow-hidden'>
+      <div className='flex h-screen overflow-hidden bg-gray-100'>
         {/* Sidebar */}
         <Sidebar />
 
         {/* Main Chat Area */}
-        <div className='flex-1'>
+        <div className='flex-1 bg-gray-100 '>
           {/* Chat Header */}
-          <header className='bg-white p-4 text-gray-700'>
-            <h1 className='text-2xl font-semibold'>#public</h1>
+          <header className='bg-white p-4 text-gray-700 bg-gray-100'>
+            <h1 className='text-2xl font-semibold bg-gray-100'>#public</h1>
           </header>
           {/* Chat Messages */}
-          <div className='h-screen max-h-[80vh] overflow-y-auto p-4 pb-36'>
+          <div className='h-screen max-h-[80vh] overflow-y-auto p-4 pb-36 bg-gray-100'>
             {/* Incoming Message */}
             {publicMessage
               ? publicMessage.map((el, index) => {
@@ -132,7 +132,7 @@ export default function Home() {
               : []}
           </div>
           {/* Chat Input */}
-          <footer className='bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4 border-solid'>
+          <footer className='bg-black-100 border-t border-gray-300 p-4 absolute bottom-0 w-3/4 border-solid'>
             <div>
               {/* <Modal /> */}
               <form

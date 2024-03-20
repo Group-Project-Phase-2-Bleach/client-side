@@ -145,12 +145,13 @@ export default function DirectMessage() {
         <Sidebar />
 
         {/* Main Chat Area */}
-        <div className="flex-1 h-screen">
+        <div className="flex-1 h-screen bg-gray-800">
           {/* Chat Header */}
-          <header className="bg-white p-4 text-gray-700">
+          <header className="bg-gray-900 p-4 text-white">
             <h1 className="text-2xl font-semibold">@{receiverUsername}</h1>
           </header>
           {/* Chat Messages */}
+
           <div className="h-full max-h-[80vh] overflow-y-auto p-4 pb-36">
             {Array.isArray(message) &&
               message.map((el, index) => {
@@ -177,12 +178,13 @@ export default function DirectMessage() {
                 );
               })}
 
+
             {/* Incoming Message */}
 
             {/* Outgoing Message */}
           </div>
           {/* Chat Input */}
-          <footer className="bg-white border-t border-gray-300 p-4 fixed bottom-0 w-3/4 border-solid">
+          <footer className="border-t border-gray-300 p-4 fixed bottom-0 w-3/4 border-solid bg-black-100">
             <div>
               <form onSubmit={handleSendMessage} className="flex items-center">
                 <input
@@ -190,7 +192,7 @@ export default function DirectMessage() {
                   placeholder="Type a message..."
                   value={sendMessage}
                   onChange={(e) => setSendMessage(e.target.value)}
-                  className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500 hover:shadow-md transition-shadow duration-300"
+                  className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500 hover:shadow-md transition-shadow duration-300 bg-gray-800 text-white"
                 />
                 <input
                   type="file"
@@ -207,7 +209,7 @@ export default function DirectMessage() {
                 </label>
                 <button
                   type="submit"
-                  className="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-indigo-800 transition-colors duration-300"
+                  className="bg-green-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-indigo-800 transition-colors duration-300"
                 >
                   {loading ? <Loading /> : "Send"}
                 </button>
