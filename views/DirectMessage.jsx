@@ -34,7 +34,7 @@ export default function DirectMessage() {
   );
 
   useEffect(() => {
-    fetchLoggedProfile();
+    dispatch(fetchLoggedProfile());
   }, []);
 
   const currentUser = {
@@ -45,8 +45,20 @@ export default function DirectMessage() {
   const handleSendMessage = async (event) => {
     event.preventDefault();
     setLoading("Loading....");
+
+    let base64File;
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      base64File = await new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    }
+
     const response = dispatch(
-      sendPrivMessage(username, sendMessage, currentUser, file)
+      sendPrivMessage(username, sendMessage, currentUser, base64File)
     ).then(() => {
       if (response) {
         setFileName("Upload");
@@ -75,15 +87,15 @@ export default function DirectMessage() {
   // tambahkan ini di dalam fungsi DirectMessage
   useEffect(() => {
     socket.connect();
-    socket.on("broadcastMessage", (newMessage) => {
-      // console.log(newMessage, "<<<< ini dari client");
-      // setMessage((prevMessages) => [...prevMessages, newMessage]);
-      if (currentUser.currentId === newMessage.receiver) {
-        toastMsgNotif(newMessage.message);
-      }
-      dispatch(fetchDirectMessages(username));
-      // console.log(message, "<<<<< ini message")
-    });
+    // socket.on("broadcastMessage", (newMessage) => {
+    //   // console.log(newMessage, "<<<< ini dari client");
+    //   // setMessage((prevMessages) => [...prevMessages, newMessage]);
+    //   if (currentUser.currentId === newMessage.receiver) {
+    //     toastMsgNotif(newMessage.message);
+    //   }
+    //   dispatch(fetchDirectMessages(username));
+    //   // console.log(message, "<<<<< ini message")
+    // });
 
     socket.on("broadcastDelete", (data) => {
       // setMessage(data)
@@ -104,6 +116,28 @@ export default function DirectMessage() {
     dispatch(fetchDirectMessages(username)); //passing username karena butuh username untuk fetchdata
   }, [username]);
 
+  //send Message logic
+  useEffect(() => {
+    const handleNewMessage = (newMessage) => {
+      console.log(newMessage, "<<<<<<<<<<");
+      if (newMessage.SenderId == currentUser.currentId) {
+        newMessage.messageBelongsToLoggedUser = true;
+      } else {
+        newMessage.messageBelongsToLoggedUser = false;
+      }
+
+      dispatch(setMessage([...message, newMessage]));
+    };
+
+    socket.on("broadMessage", handleNewMessage);
+
+    return () => {
+      socket.off("broadMessage", handleNewMessage);
+    };
+  }, [dispatch, message]);
+
+  // console.log(message);
+
   return (
     <>
       <div className="flex h-screen overflow-hidden ">
@@ -117,30 +151,33 @@ export default function DirectMessage() {
             <h1 className="text-2xl font-semibold">@{receiverUsername}</h1>
           </header>
           {/* Chat Messages */}
-          <div className="h-full max-h-[80vh] overflow-y-auto p-4 pb-36 ">
-            {message.map((el, index) => {
-              return el.messageBelongsToLoggedUser == true ? (
-                <OutgoingMessage
-                  key={index}
-                  profileImgUrl={el.Sender.Profile.profileImgUrl}
-                  fullName={el.Sender.username}
-                  text={el.text}
-                  id={el.id}
-                  onDeleteMessage={onDeleteMessage}
-                  createdAt={el.createdAt}
-                  imgUpload={el.imgUploadPriv}
-                />
-              ) : (
-                <IncomingMessage
-                  key={index}
-                  profileImgUrl={el.Sender.Profile.profileImgUrl}
-                  fullName={el.Sender.username}
-                  text={el.text}
-                  createdAt={el.createdAt}
-                  imgUpload={el.imgUploadPriv}
-                />
-              );
-            })}
+
+          <div className="h-full max-h-[80vh] overflow-y-auto p-4 pb-36">
+            {Array.isArray(message) &&
+              message.map((el, index) => {
+                return el.messageBelongsToLoggedUser == true ? (
+                  <OutgoingMessage
+                    key={index}
+                    profileImgUrl={el.Sender.Profile.profileImgUrl}
+                    fullName={el.Sender.username}
+                    text={el.text}
+                    id={el.id}
+                    onDeleteMessage={onDeleteMessage}
+                    createdAt={el.createdAt}
+                    imgUpload={el.imgUploadPriv}
+                  />
+                ) : (
+                  <IncomingMessage
+                    key={index}
+                    profileImgUrl={el.Sender.Profile.profileImgUrl}
+                    fullName={el.Sender.username}
+                    text={el.text}
+                    createdAt={el.createdAt}
+                    imgUpload={el.imgUploadPriv}
+                  />
+                );
+              })}
+
 
             {/* Incoming Message */}
 

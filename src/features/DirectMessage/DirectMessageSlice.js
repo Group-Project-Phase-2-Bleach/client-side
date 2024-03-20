@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../../utils/axios';
-import showToastSuccess from '../../../utils/toastSucces';
-import { socket } from '../../socket';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "../../../utils/axios";
+import showToastSuccess from "../../../utils/toastSucces";
+import { socket } from "../../socket";
 
 const initialState = {
   allPrivMessage: [],
 };
 
 export const directMessageSlice = createSlice({
-  name: 'DirectMessage',
+  name: "DirectMessage",
   initialState,
   reducers: {
     setMessage: (state, action) => {
@@ -27,7 +27,7 @@ export const fetchDirectMessages = (username) => {
       const { data } = await axios({
         url: `/${username}/message`,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       dispatch(setMessage(data));
@@ -43,14 +43,14 @@ export const deletePrivMessageById = (id) => {
     try {
       await axios({
         url: `/${id}/message`,
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       // const filteredData = message.filter((obj) => obj.id !== id);
-      socket.emit('deleteMessage', 'Message Deleted Successfully');
-      showToastSuccess('Success deleted message.');
+      socket.emit("deleteMessage", "Message Deleted Successfully");
+      showToastSuccess("Success deleted message.");
     } catch (error) {
       console.log(error);
     }
@@ -58,25 +58,26 @@ export const deletePrivMessageById = (id) => {
 };
 
 // send privMessage between logged user and other user by username
-export const sendPrivMessage = (username, sendMessage, sender, file) => {
+export const sendPrivMessage = (username, sendMessage, sender, base64File) => {
   return async (dispatch) => {
     try {
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('text', sendMessage);
-      const { data } = await axios({
-        url: `/${username}/message`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        data: formData,
-      });
-      socket.emit('sendMessage', {
-        sender: sender.currentUsername,
-        receiver: data.ReceiverId,
-        message: `From ${sender.currentUsername}: ${data.text}`,
+      // const { data } = await axios({
+      //   url: `/${username}/message`,
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+      //   },
+      //   data: formData,
+      // });
+      socket.emit("sendMessage", {
+        text: sendMessage,
+        file: base64File,
+        username: username,
+        senderId: sender.currentId,
+        // sender: sender.currentUsername,
+        // receiver: data.ReceiverId,
+        // message: `From ${sender.currentUsername}: ${data.text}`,
       });
     } catch (error) {
       console.log(error);
