@@ -2,10 +2,9 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL:
-    // process.env.NODE_ENV === "production"
-    //   ? "https://koneksion.raihankusuma.tech/"
-    //   : "http://localhost:3000",
-    "http://localhost:3000"
+    process.env.NODE_ENV === "production"
+      ? "https://appchats-bleach.carloshakim.online"
+      : "http://localhost:3000",
 });
 
 export default instance;
