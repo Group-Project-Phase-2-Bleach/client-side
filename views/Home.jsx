@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Sidebar from '../src/components/Sidebar';
-import IncomingMessage from '../src/components/IncomingMessage';
-import OutgoingMessage from '../src/components/OutgoingMessage';
-import { socket } from '../src/socket';
-import toastMsgNotif from '../utils/toastMsgNotif';
-import Loading from '../src/components/Loading';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Sidebar from "../src/components/Sidebar";
+import IncomingMessage from "../src/components/IncomingMessage";
+import OutgoingMessage from "../src/components/OutgoingMessage";
+import { socket } from "../src/socket";
+import toastMsgNotif from "../utils/toastMsgNotif";
+import Loading from "../src/components/Loading";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteMessageOnPub,
   fetchPublicMessage,
   sendPublicMessage,
-} from '../src/features/PublicMessage/PublicMessageSlice';
-import { fetchLoggedProfile } from '../src/features/User/CurrentlyLoggedProfile';
-import Modal from '../src/components/Modal';
+} from "../src/features/PublicMessage/PublicMessageSlice";
+import { fetchLoggedProfile } from "../src/features/User/CurrentlyLoggedProfile";
+import Modal from "../src/components/Modal";
 export default function Home() {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const publicMessage = useSelector((state) => state.pubMessage.pubMessageList);
-  const [sendPubMessage, setSendPubMessage] = useState('');
-  const [fileName, setFileName] = useState('Upload');
+  const [sendPubMessage, setSendPubMessage] = useState("");
+  const [fileName, setFileName] = useState("Upload");
   const [loading, setLoading] = useState(false);
 
   const loggedProfile = useSelector(
@@ -33,14 +33,14 @@ export default function Home() {
 
   const handleSendMessage = async (event) => {
     event.preventDefault();
-    setLoading('Loading....');
+    setLoading("Loading....");
     const response = dispatch(
       sendPublicMessage(file, sendPubMessage, currentUser)
     ).then(() => {
       if (response) {
-        setFileName('Upload');
+        setFileName("Upload");
         setFile(null);
-        setSendPubMessage('');
+        setSendPubMessage("");
         setLoading(false);
       }
     });
@@ -52,18 +52,18 @@ export default function Home() {
 
   const handleFileUpload = (e) => {
     setFile(e.target.files[0]);
-    setFileName(e.target.files[0] ? e.target.files[0].name : 'Upload');
+    setFileName(e.target.files[0] ? e.target.files[0].name : "Upload");
   };
 
   const clearFile = (event) => {
     event.preventDefault();
     setFile(null);
-    setFileName('Upload');
+    setFileName("Upload");
   };
 
   useEffect(() => {
     socket.connect();
-    socket.on('broadcastMessage', (newMessage) => {
+    socket.on("broadcastMessage", (newMessage) => {
       if (newMessage.sender !== currentUser.currentUsername) {
         toastMsgNotif(newMessage.message);
       }
@@ -71,15 +71,15 @@ export default function Home() {
       dispatch(fetchPublicMessage());
     });
 
-    socket.on('broadcastDelete', (data) => {
+    socket.on("broadcastDelete", (data) => {
       // setMessage(data)
       dispatch(fetchPublicMessage());
     });
 
     return () => {
       socket.disconnect();
-      socket.off('broadcastMessage');
-      socket.off('broadcastDelete');
+      socket.off("broadcastMessage");
+      socket.off("broadcastDelete");
     };
   }, [publicMessage]);
 
@@ -90,91 +90,26 @@ export default function Home() {
 
   return (
     <>
-      <div className='flex h-screen overflow-hidden bg-gray-100'>
+      <div className="flex h-screen overflow-hidden bg-gray-100">
         {/* Sidebar */}
         <Sidebar />
 
         {/* Main Chat Area */}
-        <div className='flex-1 bg-gray-100 '>
+        <div className="flex-1 bg-gray-100 ">
           {/* Chat Header */}
-          <header className='bg-white p-4 text-gray-700 bg-gray-100'>
-            <h1 className='text-2xl font-semibold bg-gray-100'>#public</h1>
+          <header className="bg-white p-4 text-gray-700 bg-gray-100">
+            <h1 className="text-2xl font-semibold bg-gray-100"></h1>
           </header>
-          {/* Chat Messages */}
-          <div className='h-screen max-h-[80vh] overflow-y-auto p-4 pb-36 bg-gray-100'>
-            {/* Incoming Message */}
-            {publicMessage
-              ? publicMessage.map((el, index) => {
-                  return el.messageBelongsToLoggedUser == true ? (
-                    <>
-                      <OutgoingMessage
-                        key={index}
-                        profileImgUrl={el.User.Profile.profileImgUrl}
-                        fullName={el.User.username}
-                        text={el.text}
-                        id={el.id}
-                        createdAt={el.createdAt}
-                        imgUpload={el.imgUploadGroup}
-                        onDeleteMessage={onDeleteMessage}
-                      />
-                    </>
-                  ) : (
-                    <IncomingMessage
-                      key={index}
-                      profileImgUrl={el.User.Profile.profileImgUrl}
-                      fullName={el.User.username}
-                      text={el.text}
-                      createdAt={el.createdAt}
-                      imgUpload={el.imgUploadGroup}
-                    />
-                  );
-                })
-              : []}
+          <div className="h-screen max-h-[80vh] overflow-y-auto p-4 pb-36 bg-gray-100 flex items-center justify-center">
+            <h1 className="text-4xl text-center">
+              Click profile to enter a chat...
+            </h1>
           </div>
           {/* Chat Input */}
-          <footer className='bg-black-100 border-t border-gray-300 p-4 absolute bottom-0 w-3/4 border-solid'>
+          <footer className="bg-black-100 border-t border-gray-300 p-4 absolute bottom-0 w-3/4 border-solid">
             <div>
               {/* <Modal /> */}
-              <form
-                onSubmit={handleSendMessage}
-                className='flex items-center'
-              >
-                <input
-                  type='text'
-                  placeholder='Type a message...'
-                  value={sendPubMessage}
-                  onChange={(e) => setSendPubMessage(e.target.value)}
-                  className='w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500 hover:shadow-md transition-shadow duration-300'
-                />
-                <input
-                  type='file'
-                  id='upload'
-                  accept='image/*'
-                  className='hidden'
-                  onChange={handleFileUpload}
-                />
-                <label
-                  htmlFor='upload'
-                  className='bg-blue-500 text-white px-4 py-2 rounded-md ml-2 cursor-pointer hover:bg-blue-800 transition-colors duration-300'
-                >
-                  {fileName}
-                </label>
-                <button
-                  type='submit'
-                  className='bg-indigo-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-indigo-800 transition-colors duration-300'
-                >
-                  {loading ? <Loading /> : 'Send'}
-                </button>
-                <button
-                  onClick={clearFile}
-                  className='bg-red-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-red-800 transition-colors duration-300'
-                >
-                  Clear
-                </button>
-                {/* <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2">
-        Send
-      </button> */}
-              </form>
+
             </div>
           </footer>
         </div>

@@ -17,7 +17,7 @@ export default function IncomingMessage({
         />
       </div>
       <div className='flex flex-col max-w-96'>
-        <div className='font-bold mb-1 ml-1'>{fullName}</div>{' '}
+        <div className='font-bold mb-1 ml-1 text-white'>{fullName}</div>{' '}
         {/* Tambahkan nama di sini */}
         <div className='bg-white text-gray-700 rounded-lg p-3 gap-3 hover:bg-gray-100 transition-colors duration-200'>
           <p className='break-all'>{text}</p>

@@ -40,11 +40,11 @@ export const loginSubmit = (loginData, navigate) => {
       });
 
       if (!findProfile.data) {
-        showToastSuccess('Success Login, Welcome to KoneksiON!');
+        showToastSuccess('Silahkan Setup Profile');
         return navigate('/profile/create');
       }
       // fetchProfileFromLoggedUser(data.username);
-      showToastSuccess('Success Login, Welcome to KoneksiON!');
+      showToastSuccess('Success Login!');
       navigate('/');
     } catch (error) {
       console.log(error);

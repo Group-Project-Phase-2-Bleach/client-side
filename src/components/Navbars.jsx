@@ -36,9 +36,9 @@ export default function Navbar() {
                 to={'/'}
                 className='font-varino text-white hover:text-gray-200 transition-colors duration-200'
               >
-                Koneksi
+               HOME
                 <span className='text-blue-500 text-3xl font-extrabold italic hover:text-blue-400 transition-all duration-200 transform hover:scale-110'>
-                  ON
+    
                 </span>
               </Link>
             </span>

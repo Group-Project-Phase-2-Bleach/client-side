@@ -36,16 +36,16 @@ export default function Register() {
         {/* Register form in the center */}
         <div className='relative w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl'>
           <h1 className='text-2xl font-bold text-gray-900 mb-6 text-center'>
-            Selamat Datang di{' '}
+            Selamat Datang{' '}
             <span className='text-2xl pl-2'>
               <i className='em em-grinning' />
               <Link
                 to={'/'}
                 className='font-varino'
               >
-                Koneksi
+
                 <span className='text-blue-500 text-3xl font-extrabold italic'>
-                  ON
+     
                 </span>
               </Link>
             </span>
