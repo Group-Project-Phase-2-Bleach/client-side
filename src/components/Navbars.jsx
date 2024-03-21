@@ -12,6 +12,8 @@ export default function Navbar() {
     (state) => state.currentlyLoggedProfile.userDataLogin
   );
 
+  const [showNotification, setShowNotification] = useState(false);
+
   useEffect(() => {
     dispatch(fetchLoggedProfile());
   }, []);
@@ -42,6 +44,9 @@ export default function Navbar() {
                 </span>
               </Link>
             </span>
+
+            
+            
           </a>
         </div>
         <div className='flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end'>
