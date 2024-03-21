@@ -33,34 +33,34 @@ export default function Login() {
   };
 
   //integration OAuth Login
-  const handleCredentialResponse = async ({ credential }) => {
-    // console.log("Encoded JWT ID token: " + credential);
-    const { data } = await axios.post("/google-login", {
-      googleToken: credential,
-    });
+  // const handleCredentialResponse = async ({ credential }) => {
+  //   // console.log("Encoded JWT ID token: " + credential);
+  //   const { data } = await axios.post("/google-login", {
+  //     googleToken: credential,
+  //   });
 
-    // simpan token di localStorage
-    localStorage.setItem("token", data.access_token);
-    showToastSuccess("Success Login!");
-    navigate("/");
-  };
-  // google OAuth
-  useEffect(() => {
-    // function handleCredentialResponse(response) {
-    //   console.log("Encoded JWT ID token: " + response.credential);
-    // }
-    // window.onload = function () {};
-    google.accounts.id.initialize({
-      client_id:
-        "1044060974853-lb9uqphq6g3esqsuf2u0lv2063dgnonh.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
-    );
-    // google.accounts.id.prompt(); // also display the One Tap dialog
-  }, []);
+  //   // simpan token di localStorage
+  //   localStorage.setItem("token", data.access_token);
+  //   showToastSuccess("Success Login!");
+  //   navigate("/");
+  // };
+  // // google OAuth
+  // useEffect(() => {
+  //   // function handleCredentialResponse(response) {
+  //   //   console.log("Encoded JWT ID token: " + response.credential);
+  //   // }
+  //   // window.onload = function () {};
+  //   google.accounts.id.initialize({
+  //     client_id:
+  //       "1044060974853-lb9uqphq6g3esqsuf2u0lv2063dgnonh.apps.googleusercontent.com",
+  //     callback: handleCredentialResponse,
+  //   });
+  //   google.accounts.id.renderButton(
+  //     document.getElementById("buttonDiv"),
+  //     { theme: "outline", size: "large" } // customization attributes
+  //   );
+  //   // google.accounts.id.prompt(); // also display the One Tap dialog
+  // }, []);
   return (
     <>
       <div className="relative flex items-center justify-center h-screen bg-gray-900">

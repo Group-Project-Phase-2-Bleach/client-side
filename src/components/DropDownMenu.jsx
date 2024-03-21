@@ -47,20 +47,6 @@ function DropdownMenu({ loggedProfile }) {
             >
               Update Profile
             </Link>
-            <a
-              href='#'
-              className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-              role='menuitem'
-            >
-              Opsi 2
-            </a>
-            <a
-              href='#'
-              className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-              role='menuitem'
-            >
-              Opsi 3
-            </a>
           </div>
         </div>
       )}
